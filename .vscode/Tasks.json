@@ -1,0 +1,26 @@
+
+{ 
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Install Profile.ps1", // A descriptive label for the task
+            "detail": "Install profile onto current workspace userspace",
+            "type": "shell",
+            //"command": "pwsh.exe -File \'${workspaceFolder}\\install.ps1\'",
+            "command": "${workspaceFolder}\\install.ps1",
+            "runOptions": {
+                "runOn": "folderOpen" // This is the key for auto-run
+            },
+            "group": {
+                    "kind": "build",
+                    "isDefault": true
+            },
+            "presentation": {
+                "focus": true, // Optional: Focus the terminal when it opens
+                "panel": "new", // Optional: Open in a dedicated panel
+                "reveal": "always", // Optional: Always show the terminal panel
+                "clear": false
+            }
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+// override existing user settings.json -> $env:APPDATA\Code\User\settings.json
+{
+    "telemetry.telemetryLevel": "off",
+    "security.allowedUNCHosts": ["localhost"],
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "window.zoomLevel": -1.5,
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    "terminal.integrated.fontSize": 14,
+
+    "git.defaultCloneDirectory": "${userHome}\\repo\\",
+
+    "editor.tabSize": 4, // Defines the number of spaces a tab character represents
+    "editor.insertSpaces": true, // If true, inserts spaces when pressing Tab; otherwise, inserts a tab character
+    "editor.detectIndentation": false, // Set to false to prevent VS Code from automatically detecting indentation from file content
+
+    "[html]": {
+        "editor.tabSize": 2, // Language-specific setting: HTML files will use 2 spaces per tab
+        "editor.insertSpaces": true // Language-specific setting: HTML files will insert spaces
+    },
+    "powershell.codeFormatting.useConstantStrings": true,
+    "powershell.codeFormatting.useCorrectCasing": true,
+    "powershell.integratedConsole.startInBackground": true
+}
