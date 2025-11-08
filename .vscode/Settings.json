@@ -2,7 +2,7 @@
 {
     "telemetry.telemetryLevel": "off",
     "security.allowedUNCHosts": ["localhost"],
-    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.colorTheme": "Aura Dark",
     "window.zoomLevel": -1.5,
     "terminal.integrated.cwd": "${workspaceFolder}",
     "terminal.integrated.fontSize": 14,
@@ -20,4 +20,5 @@
     "powershell.codeFormatting.useConstantStrings": true,
     "powershell.codeFormatting.useCorrectCasing": true,
     "powershell.integratedConsole.startInBackground": true
+
 }
