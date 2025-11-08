@@ -14,10 +14,11 @@ param(
 
     [Switch]$VSCode = $(if (Get-Command code.cmd -ErrorAction SilentlyContinue) { [Switch]::Present } else { $Null })
 )
+$thisDirectory = Split-Path $MyInvocation.MyCommand.Source
+
 # Default profile to append custom user profile dot-source
 $defaultProfile = $profile.CurrentUserAllHosts
-
-$thisDirectory = Split-Path $MyInvocation.MyCommand.Source
+if (-not (test-path $defaultProfile)) { throw "Default profile not found $defaultProfile!" } 
 
 # the destination profile path
 $targetProfile = "$profileDestination\$profileName"
@@ -28,20 +29,13 @@ Write-Host "Custom Profile: $thisProfile"
 write-Host "Target Profile: $targetProfile"
 Write-Host "Default Profile: $defaultProfile"
 
-# # Create the destination profile directory if it does not exist
-# if (!(Test-Path -Path $profileDestination)) {
-#     New-Item -ItemType Directory -Path $profileDestination -Force
-#     Write-Host "Created directory: $profileDestination" -ForegroundColor Yellow
-# }
+# Create the destination profile directory if it does not exist
+if (!(Test-Path -Path $profileDestination)) {
+    New-Item -ItemType Directory -Path $profileDestination -Force
+    Write-Host "Created directory: $profileDestination" -ForegroundColor Yellow
+}
 
-
-# # create default profile if it does not exist
-# if (-not (Test-Path -Path $defaultProfile)) {
-#     New-Item -ItemType File -Path $defaultProfile -Force | Out-Null
-#     Write-Host "Created profile file: $($defaultProfile)" -ForegroundColor Yellow
-# }
-
-# Copy local profile to the target profile directory, if files do not match
+# Copy local profile to the destination profile directory, if file hashes do not match
 if ((Get-FileHash $targetProfile -ErrorAction SilentlyContinue).Hash -ne (Get-FileHash $thisProfile).Hash) {
     try {
         Copy-Item $thisProfile $targetProfile -Force -PassThru
@@ -54,6 +48,7 @@ if ((Get-FileHash $targetProfile -ErrorAction SilentlyContinue).Hash -ne (Get-Fi
 # when the default profile is not the same as the targeted profile, appending dot-source of custom profile
 if ($defaultProfile -ne $targetProfile) {
     $updatedProfile = $null
+    
     # append string for custom user profile to be dot-sourced
     [string]$dotSourceProfile = ". '$targetProfile' @PSBoundParameters"
     
@@ -72,15 +67,16 @@ if ($defaultProfile -ne $targetProfile) {
         $updatedProfile = "[CmdletBinding()]`nparam()`n$dotSourceProfile"
     }
 
-    # ensure the profile content has [CmdletBinding()] definition
+    # ensure the profile content has [CmdletBinding()] definition header
     if ($existingProfile -notlike "*`[CmdletBinding`(*`)`]*") {
         Write-Host "[CmdletBinding()] not found in profile, adding it to update"
         $updatedProfile = "[CmdletBinding()]"
-        # ensure the profile content has Param() block definition
+        # ensure the profile content has Param() block definition header
         if ($existingProfile -notlike "*param(*") {
             Write-Host "Param() not found in profile, adding it to update"
             $updatedProfile = "$updatedProfile`nparam()"
         }
+        # append headerchanges to file
         $updatedProfile = "$updatedProfile`n$existingProfile"
     }
 
@@ -102,7 +98,7 @@ if ($defaultProfile -ne $targetProfile) {
     }
 }
 
-# # Dot-source the default profile to apply the changes
+# Dot-source the default profile to apply the changes
 Write-Host "Dot-sourcing the default profile: $defaultProfile"
 . "$defaultProfile" @PSBoundParameters
 Write-Host "Profile loaded from: $defaultProfile" -ForegroundColor Green
@@ -128,3 +124,4 @@ if ($VSCode) {
 # Copy Windows Terminal settings file path
 # Search for wt.exe / WindowsTerminal.exe directory
 # Copy-Item ..\.WindowsTerminal\settings.json $env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+
