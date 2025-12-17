@@ -1,0 +1,24 @@
+{
+    "telemetry.telemetryLevel": "off",
+    "security.allowedUNCHosts": ["localhost"],
+    "workbench.colorTheme": "Aura Dark",
+    "window.zoomLevel": -1.2,
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    "terminal.integrated.fontSize": 14,
+
+    "git.defaultCloneDirectory": "${userHome}\\repo\\",
+
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+
+    "[html]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
+    },
+
+    "powershell.codeFormatting.useConstantStrings": true,
+    "powershell.codeFormatting.useCorrectCasing": true,
+    "powershell.integratedConsole.startInBackground": true
+
+}
