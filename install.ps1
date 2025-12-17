@@ -108,7 +108,7 @@ if ($VSCode) {
     try { Get-Command code.cmd -ErrorAction Stop | Out-Null } catch { throw "VS Code installation unknown, command 'code.cmd' not found!`n`t$_" }
 
     try {
-        $thisUserSettings = "$thisDirectory\.vscode\Settings.json"
+        $thisUserSettings = "$thisDirectory\.vscode\user\settings.json"
         $currentUserSettings = "$env:APPDATA\Code\User\settings.json"
         Copy-Item $thisUserSettings $currentUserSettings -Force -PassThru -ErrorAction Stop
         Write-Host "Updated VSCode user settings. Replaced [$currentUserSettings] with [$thisUserSettings] successfully!" -ForegroundColor Green
@@ -124,4 +124,5 @@ if ($VSCode) {
 # Copy Windows Terminal settings file path
 # Search for wt.exe / WindowsTerminal.exe directory
 # Copy-Item ..\.WindowsTerminal\settings.json $env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+
 
